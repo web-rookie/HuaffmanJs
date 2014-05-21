@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>哈夫曼树动态实现</title>
+		<link rel="stylesheet" href="css/screen.css" type="text/css" media="screen, projection">
+		<link href="./css/index.css" rel="stylesheet"/>
+		
+	</head>
+	<body>
+		<canvas width="1050" height="660" class="can" id="mapCanvas"></canvas>
+		<canvas width="1050" height="660" class="can" id="showCanvas"></canvas>
+		<div id="tool">
+			<input id="inputValue" type="text" value=''/>
+			<input id="submitValue" type="button" value='提交'/>
+			<input id="start" type="button" value='开始演示'/>
+			<input id="clear" type="button" value='清除'/>
+			
+			<div id="example-21" class="example">
+			  <div id="rating-21"></div>
+			  <div id="result-21"></div>
+			  <div class="clearfix"></div>
+			</div>
+		</div>
+		
+		<script src="./js/jquery.min.js"></script>
+		<script src="./js/canvas.js"></script>
+		<script src="./js/mapData.js"></script>
+		<script src="./js/map.js"></script>
+		<script src="./js/numdiv.js"></script>
+		<script src="./js/line.js"></script>
+		<script src="./js/parentBox.js"></script>
+		<script src="./js/index.js"></script>
+		<script type="text/javascript" src="js/rating.min.js"></script>
+		<script>
+		var isStart = true;
+		var isSubmit = false;
+		$("#start").on("click",function(){
+			if(!isStart){
+				Huaffman.start();
+				isStart = true;
+			}
+		});
+		$("#submitValue").on("click",function(){
+			if(!isSubmit){
+				var data = $("#inputValue").val().split(",");
+				if(data.length<=1||data.length>15){
+					alert("请正确输入0~15个权值");
+					$("#inputValue").val('');
+					$("#inputValue").focus();
+					
+				}else{
+					isStart = false;
+					Huaffman.initData();
+					isSubmit = true;
+				}
+			}
+		});
+		$("#clear").on("click",function(){
+			isSubmit = false;
+			Huaffman.stop();
+			Huaffman.clear();
+		})
+		$('#rating-21').slidy({
+            maxval: 10000, interval: 1000, defaultValue: 7000, 
+            finishedCallback: function (value) {
+			if(value<4500){
+				value = 4500;
+			}
+              Huaffman.gloable=value;
+			  $('#result-21').html('当前您选择的速度为: ' + value/1000+'s');
+            }
+          });
+		</script>
+	</body>
+</html>
